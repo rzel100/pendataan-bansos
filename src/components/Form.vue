@@ -3,7 +3,9 @@
   elevation="4"
   class="mx-auto ma-4"
   max-width="720">
-    <v-card-title class="green"><span style="color: white">Data Penerima Bansos</span></v-card-title>
+    <v-card-title class="green">
+      <span style="color: white">Data Penerima Bansos</span>
+    </v-card-title>
     <v-form
     class="ma-4"
     v-model="valid"
@@ -11,6 +13,7 @@
     @submit.prevent="submit">
       <v-container>
         <v-text-field
+          ref="nama"
           v-model="nama"
           :rules="namaRules"
           @input="edited()"
@@ -21,6 +24,7 @@
         <v-text-field
           counter
           type="number"
+          ref="nik"
           v-model="nik"
           :rules="nikRules"
           @input="edited()"
@@ -31,6 +35,7 @@
         <v-text-field
           counter
           type="number"
+          ref="no_kk"
           v-model="no_kk"
           :rules="no_kkRules"
           @input="edited()"
@@ -39,6 +44,7 @@
         ></v-text-field>
 
         <v-file-input
+          ref="ktp"
           v-model="ktp"
           accept="image/jpg, image/jpeg, image/png, image/bmp"
           show-size
@@ -51,6 +57,7 @@
         ></v-file-input>
 
         <v-file-input
+          ref="kk"
           v-model="kk"
           accept="image/jpg, image/jpeg, image/png, image/bmp"
           show-size
@@ -64,6 +71,7 @@
 
         <v-text-field
           type="number"
+          ref="umur"
           v-model="umur"
           :rules="umurRules"
           @input="edited()"
@@ -73,6 +81,7 @@
         ></v-text-field>
 
         <v-select
+          ref="jenis_kelamin"
           v-model="jenis_kelamin"
           :items="jenis_kelaminList"
           :rules="jenis_kelaminRules"
@@ -83,6 +92,7 @@
 
         <v-textarea
           counter
+          ref="alamat"
           v-model="alamat"
           :rules="alamatRules"
           @input="edited()"
@@ -91,6 +101,7 @@
 
         <v-text-field
           type="number"
+          ref="rt"
           v-model="rt"
           :rules="rtRules"
           @input="edited()"
@@ -100,6 +111,7 @@
 
         <v-text-field
           type="number"
+          ref="rw"
           v-model="rw"
           :rules="rwRules"
           @input="edited()"
@@ -109,6 +121,7 @@
 
         <v-text-field
           type="number"
+          ref="p_sebelum_pandemi"
           v-model="p_sebelum_pandemi"
           :rules="p_sebelum_pandemiRules"
           :messages="p_sebelum"
@@ -120,6 +133,7 @@
 
         <v-text-field
           type="number"
+          ref="p_setelah_pandemi"
           v-model="p_setelah_pandemi"
           :rules="p_setelah_pandemiRules"
           :messages="p_setelah"
@@ -130,6 +144,7 @@
         ></v-text-field>
 
         <v-combobox
+          ref="alasan_bantuan"
           v-model="alasan_bantuan"
           :items="listAlasan_bantuan"
           :rules="alasan_bantuanRules"
@@ -147,37 +162,116 @@
           required
         ></v-checkbox>
 
-        <v-btn dark color="#388E3C" v-on:click="submit()">Submit</v-btn>
+        <div v-if="!btnSubmit">
+          <v-btn dark color="#388E3C"
+            v-on:click="submit()">
+
+            Submit
+            <v-icon
+              right
+              dark>
+              mdi-upload
+            </v-icon>
+
+          </v-btn>
+        </div>
+        <div v-else>
+          <v-btn color="#388E3C"
+            loading
+            disabled>
+
+            Sedang Di Proses...
+            <span right>
+              <v-icon light>mdi-cached</v-icon>
+            </span>
+
+            <template v-slot:loader>
+              Sedang Di Proses...
+              <span class="custom-loader" right>
+                <v-icon light>mdi-cached</v-icon>
+              </span>
+            </template>
+
+          </v-btn>
+        </div>
+
       </v-container>
     </v-form>
   </v-card>
 </template>
 
+<style>
+  .custom-loader {
+    animation: loader 1s infinite;
+    display: flex;
+  }
+  @-moz-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-o-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
 <script>
   export default {
     data: () => ({
+      //Saat Pertama Form Nya Di Set False Agar User Tidak Bisa Input...
       valid : false,
+
+      //Form Untuk 'nama' Juga Rules-nya...
       nama : '',
       namaRules: [
         v => !!v || 'Nama Tidak Boleh Kosong'
       ],
 
+      //Form Untuk 'nik' Juga Rules-nya...
       nik : '',
       nikRules: [
         v => !!v || 'NIK Tidak Boleh Kosong',
-        v => v.length >= 16 || 'NIK Harus Berjumlah 16 Digit',
+        v => v.length >= 16 || 'NIK Harus Berjumlah 16 Digit', 
         v => v.length <= 16 || 'NIK Tidak Boleh Lebih Dari 16 Digit'
       ],
 
+      //Form Untuk 'no_kk' Juga Rules-nya...
       no_kk : '',
       no_kkRules: [
         v => !!v || 'Nomor Kartu Keluarga Tidak Boleh Kosong'
       ],
 
-      ktp : [],
+      //Form Untuk 'ktp'... Rules-nya Ada Di Computed...
+      ktp : null,
 
-      kk : [],
+      //Form Untuk 'kk'... Rules-nya Ada Di Computed...
+      kk : null,
 
+      //Form Untuk 'umur' Juga Rules-nya...
       umur : '',
       umurRules: [
         v => !!v || 'Umur Tidak Boleh Kosong',
@@ -185,28 +279,33 @@
         v => v >= 1 || 'Umur Tidak Boleh Kurang Dari 1 Tahun'
       ],
 
-      jenis_kelaminList : ['Laki-laki', 'Perempuan'],
+      //Form Untuk 'jenis_kelamin' Juga Rules-nya...
       jenis_kelamin : '',
+      jenis_kelaminList : ['Laki-laki', 'Perempuan'],
       jenis_kelaminRules: [
         v => !!v || 'Jenis Kelamin Tidak Boleh Kosong'
       ],
 
+      //Form Untuk 'alamat' Juga Rules-nya...
       alamat : '',
       alamatRules: [
         v => !!v || 'Alamat Tidak Boleh Kosong',
         v => v.length <= 255 || 'Alamat Tidak Boleh Lebih Dari 255 Digit'
       ],
 
+      //Form Untuk 'rt' Juga Rules-nya...
       rt : '',
       rtRules: [
         v => !!v || 'RT Tidak Boleh Kosong'
       ],
 
+      //Form Untuk 'rw' Juga Rules-nya...
       rw : '',
       rwRules: [
         v => !!v || 'RT Tidak Boleh Kosong'
       ],
 
+      //Form Untuk 'p_sebelum_pandemi' Juga Rules-nya...
       p_sebelum_pandemi : '',
       p_sebelum_pandemiRules: [
         v => !!v || 'Penghasilan Sebelum Pandemi Tidak Boleh Kosong',
@@ -214,6 +313,7 @@
       ],
       p_sebelum : [''],
 
+      //Form Untuk 'p_setelah_pandemi' Juga Rules-nya...
       p_setelah_pandemi : '',
       p_setelah_pandemiRules: [
         v => !!v || 'Penghasilan Setelah Pandemi Tidak Boleh Kosong',
@@ -221,49 +321,148 @@
       ],
       p_setelah : [''],
 
+      //Form Untuk 'alasan_bantuan' Juga Rules-nya...
+      alasan_bantuan : '',
       listAlasan_bantuan : [
         'Kehilangan pekerjaan',
         'Kepala keluarga terdampak atau korban Covid',
         'Tergolong fakir/miskin semenjak sebelum Covid'
       ],
-      alasan_bantuan : '',
       alasan_bantuanRules: [
         v => !!v || 'Alasan Tidak Boleh Kosong. Bisa Pilih Salah Satu Atau Isi Sendiri'
       ],
 
+      //Form Untuk 'setuju' Juga Rules-nya...
       setuju : false,
       setujuRules : [
-        v => !!v || 'Kamu Harus Setuju'
-      ]
+        v => !!v || 'Kamu Harus Setuju Ini Untuk Bisa Meng-Submit Data'
+      ],
+
+      //Status Button Nya... Sedang Submit Atau Tidak...
+      btnSubmit : false
     }),
     computed : {
+
+      //Rules Untuk ktp... Filter Size Dan File Type...
       ktpRules() {
         let ruled = []
         ruled = ['Foto KTP Tidak Boleh Kosong']
-        if (this.ktp) {
-          ruled = [v => v.size <= 2000000 || 'Foto KTP Tidak Boleh Lebih Dari 2 MB']
+        if (this.ktp !== null) {
+          ruled = [
+            v => v.size <= 2000000 || 'Foto KTP Tidak Boleh Lebih Dari 2 MB',
+            v => v.type == "image/jpg" || v.type == "image/jpeg" || v.type == "image/png" || v.type == "image/bmp" || 'Terdeteksi Bahwa File Yang Di Input Bukan Gambar / Foto'
+          ]
         }
         return ruled
       },
 
+      //Rules Untuk kk... Filter Size Dan File Type...
       kkRules() {
         let ruled = []
         ruled = ['Foto Kartu Keluarga Tidak Boleh Kosong']
-        if (this.kk) {
-          ruled = [v => v.size <= 2000000 || 'Foto Kartu Keluarga Tidak Boleh Lebih Dari 2 MB']
+        if (this.kk !== null) {
+          ruled = [
+            v => v.size <= 2000000 || 'Foto Kartu Keluarga Tidak Boleh Lebih Dari 2 MB',
+            v => v.type == "image/jpg" || v.type == "image/jpeg" || v.type == "image/png" || v.type == "image/bmp" || 'Terdeteksi Bahwa File Yang Di Input Bukan Gambar / Foto'
+          ]
         }
         return ruled
       }
     },
     methods : {
+
+      //Fungsi Untuk Submit Form... Agak Panjang Karena Vuetify Value Inputnya Tidak Bisa Berbentuk NUMBER...
       submit() {
-        console.log(this.$refs.input.validate())
+        //List Untuk Validasi... Array Ke-0 = Form Yang Akan Di Validasi, Array Ke-1 = Format Data (s = string, n = number, o = other)...
+        let allInputList = [
+          ['nama', 's'],
+          ['nik', 'n'],
+          ['no_kk', 'n'],
+          ['ktp', 'o'],
+          ['kk', 'o'],
+          ['umur', 'n'],
+          ['jenis_kelamin', 's'],
+          ['alamat', 's'],
+          ['rt', 'n'],
+          ['rw', 'n'],
+          ['p_sebelum_pandemi', 'n'],
+          ['p_setelah_pandemi', 'n']
+        ]
+
+        //Fungsi Untuk Merubah String Ke Number Berdasarkan List Yang Telah Di Buat...
+        function toNumber(data) {
+          let returnValue
+          if (data[1] == 'n') {
+            returnValue = Number(data[0])
+          } else {
+            returnValue = data[0]
+          }
+          if (isNaN(returnValue)) {
+            returnValue = data[0]
+          }
+          return returnValue
+        }
+
+        //Cek Apakah Form Nya Valid...
+        if (this.$refs.input.validate()) {
+          //Set Buttonnya Ke Mode Loading...
+          this.btnSubmit = true;
+
+          //Promise Untuk Simulasi Submit Data...
+          const submitPromise = new Promise ((resolve, reject) => {
+            setTimeout(() => {
+              //Random... 1 = Berhasil, Selain Itu Dianggap Gagal... Kemungkinan Output Hanya 1 Dan 0...
+              let success = Math.floor(Math.random() * 2);
+              this.btnSubmit = false;
+              if (success == 1) {
+                resolve('Berhasil Submit Data')
+              } else {
+                reject('Gagal : Internal Server Error')
+              }
+            }, 1500)
+          })
+
+          //Jalankan Promisenya... Dan Tampilkan Status Promise Nya... Berhasil Atau Tidak...
+          submitPromise
+            .then(function(resolve) {
+              console.log('=============PROMISE=============')
+              console.log(resolve)
+              console.log('=================================')
+            })
+            .catch(function(reject) {
+              console.log('=============PROMISE=============')
+              console.log(reject)
+              console.log('=================================')
+            })
+
+          //Selagi Proses Beritahu Kalau Submit Sedang Di Proses...
+          console.log('Sedang Di Proses...')
+        } else {
+          //Kalau Form Tidak Valid Focus Input Ke Form Yang Tidak Valid...
+          //Focus Form Nya Dari Bawah Ke Atas... Menggunakan List Form Yang Telah Di Buat...
+          for (let i = 0;i < allInputList.length;i++) {
+            if (!this.$refs[allInputList[allInputList.length - (i + 1)][0]].valid) {
+              this.$refs[allInputList[allInputList.length - (i + 1)][0]].focus()
+            }
+          }
+        }
+
+        //Valid Ataupun Tidak Form Value Nya Di console.log...
+        console.log('==============INPUT==============')
+        for (let i = 0;i < allInputList.length;i++) {
+          console.log(allInputList[i][0]+' : '+toNumber([this.$refs[allInputList[i][0]].value, allInputList[i][1]]))
+        }
+        console.log('=================================')
       },
 
+      //Fungsi Ini Ada Di Setiap Input...
+      //Jika Terdeteksi Ada Perubahan Input... Maka Checkbox Persetujuan Akan Di Set Ke False...
       edited() {
         this.setuju = false
       },
 
+      //Fungsi Ini Digunakan Untuk Menampilkan Angka Berformat Rupiah...
+      //Digunakan Saat Input Penghasilan...
       convert(data, value) {
         let angka = Number(value)
         let pesan = []
