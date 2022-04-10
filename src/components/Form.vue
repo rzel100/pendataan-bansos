@@ -195,6 +195,24 @@
           </v-btn>
         </div>
 
+        <v-dialog
+          v-model="notice"
+          persistent
+          max-width="600">
+          <v-card>
+            <v-card-title dark :class="[noticeMsg.title == 'Sukses' ? 'green' : 'red']">
+              <span style="color: white">{{ noticeMsg.title }}</span>
+            </v-card-title>
+            <v-card-text class="pt-4">
+              {{ noticeMsg.text }}
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn class="red" dark @click="notice = false">Tutup</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
       </v-container>
     </v-form>
   </v-card>
@@ -339,7 +357,14 @@
       ],
 
       //Status Button Nya... Sedang Submit Atau Tidak...
-      btnSubmit : false
+      btnSubmit : false,
+
+      //Nitifikasi... Untuk Memberi Tahu User Apakah Proses Submit Nya Berhasil Atau Tidak...
+      notice : false,
+      noticeMsg : {
+        'title' : 'Ini Title',
+        'text' : 'Ini Deskripsi'
+      }
     }),
     computed : {
 
@@ -415,8 +440,17 @@
               let success = Math.floor(Math.random() * 2);
               this.btnSubmit = false;
               if (success == 1) {
+                //Jika Berhasil Notifikasi Nya Menjadi Sukses...
+                this.noticeMsg.title = 'Sukses'
+                this.noticeMsg.text = 'Form Berhasil Di Submit. Silahkan Input Form Kembali Bila Ada Yang Ingin Di Input Lagi.'
+                this.notice = true
+                this.clearForm()
                 resolve('Berhasil Submit Data')
               } else {
+                //Jika Gagal Notifikasi Nya Menjadi Gagal... Dan Tampilkan Pesan Errornya...
+                this.noticeMsg.title = 'Gagal'
+                this.noticeMsg.text = 'Form Gagal Di Submit. Submit Ulang Form Nya Beberapa Saat Lagi Dan Cek Koneksi Anda. Bila Masih Tetap Tidak Dimohon Untuk Hubungi Admin.'
+                this.notice = true
                 reject('Gagal : Internal Server Error')
               }
             }, 1500)
@@ -436,6 +470,8 @@
             })
 
           //Selagi Proses Beritahu Kalau Submit Sedang Di Proses...
+          this.noticeMsg.title = 'Proses...'
+          this.noticeMsg.text = 'Proses...'
           console.log('Sedang Di Proses...')
         } else {
           //Kalau Form Tidak Valid Focus Input Ke Form Yang Tidak Valid...
@@ -477,6 +513,15 @@
           this.p_setelah = pesan
         }
         this.edited()
+      },
+
+      clearForm() {
+        let listForm = ['nama', 'nik', 'no_kk', 'umur', 'jenis_kelamin', 'alamat', 'rt', 'rw', 'p_sebelum_pandemi', 'p_setelah_pandemi', 'alasan_bantuan']
+        for (let i = 0;i < listForm.length;i++) {this[listForm[i]] = ''}
+        this.ktp = null
+        this.kk = null
+        this.setuju = false
+        this.$refs.input.resetValidation()
       }
     }
   }
