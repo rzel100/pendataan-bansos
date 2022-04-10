@@ -4,7 +4,7 @@
   class="mx-auto ma-4"
   max-width="720">
     <v-card-title class="green">
-      <span style="color: white">Data Penerima Bansos</span>
+      <span style="color: white">Input Data Penerima Bansos</span>
     </v-card-title>
     <v-form
     class="ma-4"
@@ -293,8 +293,7 @@
       umur : '',
       umurRules: [
         v => !!v || 'Umur Tidak Boleh Kosong',
-        v => v <= 25 || 'Umur Tidak Boleh Lebih Dari 25 Tahun',
-        v => v >= 1 || 'Umur Tidak Boleh Kurang Dari 1 Tahun'
+        v => v >= 25 || 'Umur Tidak Boleh Kurang Dari 25 Tahun'
       ],
 
       //Form Untuk 'jenis_kelamin' Juga Rules-nya...
@@ -411,7 +410,8 @@
           ['rt', 'n'],
           ['rw', 'n'],
           ['p_sebelum_pandemi', 'n'],
-          ['p_setelah_pandemi', 'n']
+          ['p_setelah_pandemi', 'n'],
+          ['alasan_bantuan', 's']
         ]
 
         //Fungsi Untuk Merubah String Ke Number Berdasarkan List Yang Telah Di Buat...
@@ -516,7 +516,7 @@
       },
 
       clearForm() {
-        let listForm = ['nama', 'nik', 'no_kk', 'umur', 'jenis_kelamin', 'alamat', 'rt', 'rw', 'p_sebelum_pandemi', 'p_setelah_pandemi', 'alasan_bantuan']
+        let listForm = ['nama', 'nik', 'no_kk', 'umur', 'jenis_kelamin', 'alamat', 'rt', 'rw', 'p_sebelum_pandemi', 'p_sebelum', 'p_setelah_pandemi', 'p_setelah', 'alasan_bantuan']
         for (let i = 0;i < listForm.length;i++) {this[listForm[i]] = ''}
         this.ktp = null
         this.kk = null
