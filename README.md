@@ -1,24 +1,63 @@
-# pendataan-bansos
+# Penginputan Data Penerima Bansos
 
-## Project setup
+### Info Saya
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+Nama : Mohamad Arizal Hadisucipto
+Kelas : VueJS
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### Link Video Demo
+Youtube : https://youtu.be/ba2haaezv5g
 
-### Lints and fixes files
-```
-npm run lint
-```
+### Link Deploy Project
+Netlify : https://data-bansos.netlify.app/
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Layout Dan Desain
+Alasan Mengapa Saya Menggunakan Desain ini...
+
+### Halaman Web Nya Langsung Berada Di Form Page
+Ini Bertujuan Untuk Mempermudah User Menginput Data...  
+Ketika Membuka Website... Langsung Menuju Ke Form...
+
+### Error Yang Mudah Di Mengerti
+Ketika User Menginput Data... Mungkin Mereka Akan Menemukan Kesalahan Input...  
+Apalagi User Yang Kita Tuju Adalah Pak RW...  
+Jadi Kita Harus Memperjelas Error Input Yang Terjadi...
+
+Contoh :
+- Di Kolom Nama... Jika Namanya Kosong Akan Muncul... `Nama Tidak Boleh Kosong`
+- Di Kolom NIK...
+  - Jika User Mengkosongkan NIK... Akan Muncul `NIK Tidak Boleh Kosong`
+  - Jika User Input Angkanya Kurang Dari 16 Digit... Akan Muncul `NIK Harus Berjumlah 16 Digit`
+  - Jika User Input Angkanya Lebih Dari 16 Digit... Akan Muncul `NIK Tidak Boleh Lebih Dari 16 Digit`
+- Di Kolom Upload Foto Ktp Dan Foto KK...
+  - Jika User Mengkosongkan Kolom Ini... Akan Muncul `Foto Tidak Boleh Kosong`
+  - Jika User Memilih File Yang Bukan Selain File Yang Berformat `.jpg`, `.jpeg`, `png`, `bmp`... Akan Muncul `Terdeteksi Bahwa File Yang Di Input Bukan Gambar / Foto`
+  - Jika User Memilih File Yang Ukurannya Lebih Dari 2 MB... Akan Muncul `Foto Tidak Boleh Lebih Dari 2 MB`
+- Dan Masih Banyak Rule Rule Yang Sudah Di Set Di Setiap Form Inputnya...
+
+### Kolom Input Yang Mudah Di Mengerti
+Nama Kolom Input Yang Besar... Dan Di Warnai Dengan Merah Bila Inputnya Salah...  
+Memudahkan User Untuk Mengerti Apa Yang User Sendiri Lakukan Di Input Nya...
+
+Di Beberapa Kolom Yang Menggunakan Angka Juga Ada _Counter_...  
+Untuk Memberi Tahu User Kalau Dia Sudah Menginput Angka Berapa Banyak Di Kolom Inputnya...
+
+Juga Di Kolom Input Penghasilan Sebelum Dan Sesudah Pandemi Juga Di Lengkapi Dengan Auto Convert Ke Mode _Currency_...  
+Untuk Memudahkan User Untuk Melihat Input Angka Yang Mungkin Banyak Angka 0 Nya Nanti...
+
+### Validasi Yang Lengkap Namun Tetap Mudah
+Bila User Mengsubmit Data Namun Ada Data Yang Tidak Valid...
+Form Akan Tidak Mau Mengsubmit Data Dan Akan Fokus Kan User Ke Kolom Input Yang Tidak Valid...
+
+Dan Jika User Mengedit Lagi Kolom Yang Tidak Valid Tersebut...  
+Maka Input Checkbox Yang Menyatakan Bahwa *Si User Menginput Data Dengan Sungguh Sungguh* Akan Menjadi False Dan Si User Harus Men-Centang Kan Kembali Checkbox Nya...
+
+### Notifikasi Proses Dan Hasil Submit Yang Jelas
+Ketika Si User Telah Menginput Data Dengan Valid Dan Menekan Tombol Submit...  
+Tombol Akan Berubah Menjadi `Sedang Di Proses` Dan Akan Menampilkan Animasi Loading...
+
+Ketika Hasil Submitnya Gagal... Maka Akan Memberi Tahu User Untuk Mencoba Submit Ulang Lagi Untuk Beberapa Saat...
+
+Ketika Hasil Submitnya Berhasil... Maka Akan Memberi Tahu User Kalau Submitnya Sukses...  
+Dan Akan Membersihkan Semua Form Input Yang Ada...
